@@ -20,11 +20,7 @@ const io = new Server(server, {
         credentials: true
     }
 })
-//created the instance of circuit
 
-
-
-//sockets are nothing but individual sockets
 
 
 
@@ -48,7 +44,7 @@ app.get("/login", (req, res) => {
 })
 
 
-
+//for authentication purpose
 io.use((socket, next) => {
     cookieParser()(socket.request, socket.request.res, (err) => {
         if (err) return next(err)
@@ -65,7 +61,7 @@ io.use((socket, next) => {
     })
 })
 
-//for authentication purpose
+
 
 
 
@@ -75,41 +71,20 @@ io.on("connection", (socket) => {
 
 
     socket.on("message", ({ room, message }) => {
-        // console.log(data)
-        // io.emit("receive-message", data)
-        //entire circuit
-
-        // socket.broadcast.emit("receive-message", data)
-        //here others can see the message
-
-        io.to(room).emit("receive-message", message)
-        socket.on('join-room', (room) => {
-            socket.join(room)
-        })
 
 
+        socket.to(room).emit("receive-message", message)
+
+    })
+
+    socket.on('join-room', (room) => {
+        socket.join(room)
     })
 
     socket.on("disconnect", () => {
         console.log("User disconnected", socket.id)
     })
 
-
-
-
-
-
-
-
-    // socket.emit("welcome", `Welcome to the server ${socket.id}`)
-
-    // socket.broadcast.emit("welcome", `${socket.id} joined te server`)
-
-
-
-
-    // socket.broadcast.emit("welcome", `Welcome to the server ${socket.id}`)
-    // in broadcast the mentioned person will not get the message but others will get when he reloads
 })
 
 
@@ -117,3 +92,34 @@ server.listen(port, () => {
     console.log(`Server is running on the port ${port}`)
 })
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+// console.log(data)
+// io.emit("receive-message", data)
+//entire circuit
+
+// socket.broadcast.emit("receive-message", data)
+//here others can see the message
+
+
+
+// socket.emit("welcome", `Welcome to the server ${socket.id}`)
+
+// socket.broadcast.emit("welcome", `${socket.id} joined te server`)
+
+
+
+
+// socket.broadcast.emit("welcome", `Welcome to the server ${socket.id}`)
+// in broadcast the mentioned person will not get the message but others will get when he reloads

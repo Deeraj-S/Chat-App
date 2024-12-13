@@ -42,11 +42,14 @@ export default function App() {
 
     });
 
-    // return () => {
-    //   socket.disconnect();
-    // }
+    return () => {
+      socket.off("connect")
+      socket.off("receive-message")
+    }
 
-  })
+
+
+  }, [socket])
   return (
     <>
       <Box sx={{ height: 400 }} />
