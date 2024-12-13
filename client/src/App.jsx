@@ -4,7 +4,7 @@ import { connect, io } from 'socket.io-client'
 import { Box, Button, Container, Stack, TextField, Typography } from '@mui/material'
 
 export default function App() {
-  const socket = useMemo(() => io("http://localhost:3000/", { withCredentials: true }), [])
+  const socket = useMemo(() => io("https://chat-app-backend-three-gold.vercel.app/", { withCredentials: true }), [])
 
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState("")
