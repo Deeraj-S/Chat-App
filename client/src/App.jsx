@@ -52,34 +52,36 @@ export default function App() {
   }, [socket])
   return (
     <>
-      <Box sx={{ height: 400 }} />
+      <Box sx={{ height: 100 }} />
       <Container maxWidth="sm">
         <Typography variant='h5' component="div" gutterBottom>
-          Welcome to Socket.io
+          Welcome to chat App
 
         </Typography >
 
-        <Typography variant='h7' component="div" gutterBottom >
-          {socketId}
-
-        </Typography>
 
         <form onSubmit={joinRomeHandler}>
           <h5>Join Room</h5>
           <TextField value={roomName} id="outlined-basic " label="Room Name" variant='outlined'
             onChange={(e) => setRoomName(e.target.value)} />
+          &nbsp;&nbsp;
           <Button type='submit' variant='contained' color='primary'>Join</Button>
         </form>
+        <br />
+        <br />
 
 
         <form onSubmit={handleSubmit}>
           <TextField value={message} id="outlined-basic " label="Message" variant='outlined'
             onChange={(e) => setMessage(e.target.value)} />
+          &nbsp;
 
           <TextField value={room} id="outlined-basic " label="Room" variant='outlined'
             onChange={(e) => setRoom(e.target.value)} />
+          &nbsp;&nbsp;
           <Button type='submit' variant='contained' color='primary'>Send</Button>
         </form>
+        <br />
 
         <Stack>
           {messages.map((m, i) => (
