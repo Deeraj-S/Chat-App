@@ -6,14 +6,13 @@ import { Box, Button, Container, Stack, TextField, Typography } from '@mui/mater
 export default function App() {
   const socket = useMemo(() => io("http://localhost:3000/", { withCredentials: true }), [])
 
-
+  const [messages, setMessages] = useState([])
   const [message, setMessage] = useState("")
   const [room, setRoom] = useState("")
   const [roomName, setRoomName] = useState("")
-  const [socketId, setSocketId] = useState("")
-  const [messages, setMessages] = useState([])
 
-  console.log(messages)
+
+
   const handleSubmit = (e) => {
     e.preventDefault()
     socket.emit("message", { message, room })
@@ -26,14 +25,14 @@ export default function App() {
     setRoomName("")
   }
 
+
+
   useEffect(() => {
     socket.on("connect", () => {
-      setSocketId(socket.id)
       console.log("connected", socket.id)
     })
 
     socket.on("receive-message", (data) => {
-      console.log(data)
       setMessages((messages) => [...messages, data])
     })
 
@@ -47,9 +46,10 @@ export default function App() {
       socket.off("receive-message")
     }
 
-
-
   }, [socket])
+
+
+
   return (
     <>
       <Box sx={{ height: 100 }} />
@@ -91,9 +91,6 @@ export default function App() {
             </Typography>
           ))}
         </Stack>
-
-
-
       </Container>
     </>
   )

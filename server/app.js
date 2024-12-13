@@ -13,21 +13,25 @@ const secretKey = "jksdfkjskjfdhk"
 const app = express();
 const server = createServer(app)
 
+
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "https://chat-app-room.vercel.app",
         methods: ["GET", "POST"],
         credentials: true
     }
 })
 
 
-
-
 app.use(cors({
+    origin: "https://chat-app-room.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true
 
 }))
-//middleware
+
+
+
 
 app.get("/", (req, res) => {
     res.send("Hello world")
@@ -44,7 +48,7 @@ app.get("/login", (req, res) => {
 })
 
 
-//for authentication purpose
+
 io.use((socket, next) => {
     cookieParser()(socket.request, socket.request.res, (err) => {
         if (err) return next(err)
@@ -64,22 +68,19 @@ io.use((socket, next) => {
 
 
 
-
 io.on("connection", (socket) => {
     console.log("user connected", socket.id)
 
 
-
     socket.on("message", ({ room, message }) => {
-
-
         socket.to(room).emit("receive-message", message)
-
     })
+
 
     socket.on('join-room', (room) => {
         socket.join(room)
     })
+
 
     socket.on("disconnect", () => {
         console.log("User disconnected", socket.id)
@@ -91,35 +92,3 @@ io.on("connection", (socket) => {
 server.listen(port, () => {
     console.log(`Server is running on the port ${port}`)
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// console.log(data)
-// io.emit("receive-message", data)
-//entire circuit
-
-// socket.broadcast.emit("receive-message", data)
-//here others can see the message
-
-
-
-// socket.emit("welcome", `Welcome to the server ${socket.id}`)
-
-// socket.broadcast.emit("welcome", `${socket.id} joined te server`)
-
-
-
-
-// socket.broadcast.emit("welcome", `Welcome to the server ${socket.id}`)
-// in broadcast the mentioned person will not get the message but others will get when he reloads
